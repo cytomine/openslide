@@ -673,7 +673,7 @@ static bool create_levels_from_collection(openslide_t *osr,
           first_image_dimension->nm_per_pixel) /
           first_image_dimension->nm_per_pixel;
         //g_debug("resolution similarity %g", resolution_similarity);
-        if (resolution_similarity < 0.98) {
+        if (resolution_similarity < 0.97) {
           g_set_error(err, OPENSLIDE_ERROR, OPENSLIDE_ERROR_FAILED,
                       "Inconsistent main image resolutions");
           return false;
