@@ -35,10 +35,17 @@
 #include <libxml/xpathInternals.h>
 
 xmlDoc *_openslide_xml_parse(const char *xml, GError **err) {
-  xmlDoc *doc = xmlReadMemory(xml, strlen(xml), "/", NULL,
-                              XML_PARSE_NOERROR |
-                              XML_PARSE_NOWARNING |
-                              XML_PARSE_NONET);
+  const char * const encodings[] = { NULL, "ISO-Latin-1" };
+  xmlDoc *doc;
+  int i = 0;
+
+  while(i < 2 && doc == NULL) {
+    doc = xmlReadMemory(xml, strlen(xml), "/", encodings[i],
+                                XML_PARSE_NOERROR |
+                                XML_PARSE_NOWARNING |
+                                XML_PARSE_NONET);
+    i++;
+  }
   if (doc == NULL) {
     g_set_error(err, OPENSLIDE_ERROR, OPENSLIDE_ERROR_FAILED,
                 "Could not parse XML");
